@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# encoding: utf-8
 
 
 # this module is utilized for retriving the data
@@ -7,6 +7,7 @@ module DataGetter
     require 'nokogiri'
     require 'open-uri'
     require 'date'
+    require 'csv'
     require 'pry'
     require 'pry-byebug'
 
@@ -54,11 +55,11 @@ module DataGetter
         year_info
       end
     end
-    
+
+
     def obtain_whole_data
       ret_data = []
       uri = [BASE_URI, '?op=lnkLRLLotResultDettotoU'].join
-      
       year_info = obtain_year_links(uri)
       year_info.each do |year, year_uri|
         p year
@@ -86,9 +87,8 @@ module DataGetter
           end
         end
       end
-      ret_data
+      ret_data.flatten
     end
-    
   end
 end
 
@@ -96,7 +96,12 @@ end
 if __FILE__ == $0
   whole_data = DataGetter.obtain_whole_data
   # write obtained data to JSON
-  
+  output_file_path = 'data.tsv'
+  CSV.open(output_file_path, "w", :col_sep => "\t") do |io|
+    # write header
+    io.puts(whole_data.first.keys().map(&:to_s))
+    whole_data.each { |row| io.puts(row.values) }
+  end
 end
 
 
