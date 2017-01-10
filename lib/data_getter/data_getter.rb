@@ -94,9 +94,16 @@ end
 
 
 if __FILE__ == $0
-  whole_data = DataGetter.obtain_whole_data
   # write obtained data to JSON
-  output_file_path = 'data.tsv'
+  if ARGV.empty?
+    puts "Please input the output file name"
+    puts "usage: $ruby lib/data_getter.rb 'data/data20XXXXX.tsv'"
+    exit(1)
+  end
+  # retrieve data
+  whole_data = DataGetter.obtain_whole_data
+  
+  output_file_path = ARGV[0]
   CSV.open(output_file_path, "w", :col_sep => "\t") do |io|
     # write header
     io.puts(whole_data.first.keys().map(&:to_s))
