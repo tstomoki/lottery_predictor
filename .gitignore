@@ -54,3 +54,6 @@ Gemfile.lock
 
 # for debug
 .byebug_history
+
+# remove data itself
+data/*
