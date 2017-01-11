@@ -11,7 +11,7 @@ module DataGetter
     require 'pry'
     require 'pry-byebug'
 
-    HEADER = ['Date', 'Location', 'Round',
+    HEADER = ['Date', 'Location', 'No',
               'Home', 'Score', 'Away', 'Result']
     USER_AGENT = "User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:28.0) Gecko/20100101 Firefox/28.0"
     REFERER = "http://google.com"
@@ -29,6 +29,7 @@ module DataGetter
           next if game_info.empty?
           insert_data = game_info.map{|gi| gi.content.strip}
           # block for less data
+          ## Round has already been retrieved
           next if HEADER.size != insert_data.size
           begin
             tmp_hash = [HEADER.map(&:to_sym), insert_data].transpose

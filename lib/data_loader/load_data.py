@@ -8,11 +8,12 @@ from pdb import *
 CANCEL_RESULT = 102
 HEADER_TYPES = {'Date': 'DATE',
                 'Location': 'VARCHAR(32)',
-                'Round': 'Int',
+                'No': 'Int',
                 'Home':'VARCHAR(32)',
                 'Score':'VARCHAR(32)',
                 'Away':'VARCHAR(32)',
-                'Result':'Int'}
+                'Result':'Int',
+                'Round': 'Int'}
 
 def represents_int(s):
     try: 
@@ -50,7 +51,7 @@ def load_data(file_path, table_name):
         sql = generate_table_create_sql(headers, table_name)
         c.execute(sql)
 
-    sql = 'insert into ' + table_name + ' values (%s, %s, %s, %s, %s, %s, %s)'
+    sql = 'insert into ' + table_name + ' values (%s, %s, %s, %s, %s, %s, %s, %s)'
     i = 0
     while line:
         line = f.readline()
@@ -61,7 +62,7 @@ def load_data(file_path, table_name):
         try:
             if '中止' in insert_list:
                 # 試合が中止だった場合
-                insert_list[-1] = CANCEL_RESULT
+                insert_list[-2] = CANCEL_RESULT
             elif len(insert_list) != len(HEADER_TYPES.keys()):
                 # HEADER_TYPESの数に合わなかった場合
                 continue
