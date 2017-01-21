@@ -68,7 +68,7 @@ def load_data(file_path, table_name):
                 continue
             c.execute(sql, tuple(insert_list))
         except:
-            print("Something happen at %d" % i)
+            print("Something happens at %d" % i)
             print(tuple(insert_list))
             print(len(insert_list))
         i += 1
